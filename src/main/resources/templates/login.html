@@ -36,6 +36,7 @@
             success: function (response) {
                 console.log(response)
                 localStorage.setItem("access_token", response['accessToken']);
+                localStorage.setItem("refresh_token", response['refreshToken']);
                 window.location.href = "/";
             }
         })
