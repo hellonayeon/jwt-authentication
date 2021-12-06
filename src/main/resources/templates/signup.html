@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+
+    <link href="/css/basic.css" rel="stylesheet" type="text/css">
+    <meta charset="UTF-8">
+
+    <title>JWT 기반 사용자 인증</title>
+</head>
+<script>
+    /* 회원가입 */
+    function signup() {
+        let username = $("#username").val();
+        let password = $("#password").val();
+
+        let info = {
+            username: username,
+            password: password,
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: `/user/signup`,
+            contentType: "application/json",
+            data: JSON.stringify(info),
+            success: function (response) {
+                alert("회원가입이 완료되었습니다!!");
+                location.href = '/login';
+            }
+        })
+    }
+</script>
+<body>
+<div class="wrap">
+    <div class="col-md-5 mx-auto">
+        <div class="logo mb-3">
+            <div class="col-md-12 text-center">
+                <h1>회원가입</h1>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="username">사용자 이름</label>
+            <input type="text" name="username" class="form-control" id="username"
+                   aria-describedby="emailHelp" placeholder="사용자이름을 입력해주세요.">
+        </div>
+        <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" name="password" id="password" class="form-control"
+                   aria-describedby="emailHelp" placeholder="비밀번호를 입력해주세요.">
+        </div>
+        <div class="col-md-12 text-center mb-3">
+            <button type="submit" class=" btn btn-block btn-primary tx-tfm" onclick="signup()">회원가입
+            </button>
+        </div>
+        <div class="col-md-12 ">
+            <div class="form-group">
+                <p class="text-center"><a href="/login">이미 계정이 있으신가요?</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
