@@ -1,18 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+
     <link href="/css/basic.css" rel="stylesheet" type="text/css">
     <meta charset="UTF-8">
 
     <title>JWT 기반 사용자 인증</title>
 </head>
 <script>
+    $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+        if(localStorage.getItem('access_token')) {
+            jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('access_token'));
 
+        }
+    });
+
+    function tokenExpiredCheckRequest() {
+        $.ajax({
+            type: "GET",
+            url: "/",
+            success: function (response) {
+                console.log("success");
+            },
+            error: function (response) {
+                console.log(response);
+                reissueToken();
+            }
+        })
+    }
+
+    function reissueToken() {
+        let tokens = {
+            accessToken: localStorage.getItem("access_token"),
+            refreshToken: localStorage.getItem("refresh_token")
+        };
+        localStorage.removeItem("access_token");
+
+        $.ajax({
+            type: "POST",
+            url: "/user/token",
+            contentType: "application/json",
+            data: JSON.stringify(tokens),
+            success: function (response) {
+                localStorage.setItem('access_token', response.accessToken);
+            }
+        })
+    }
 </script>
 <body>
   <div class="wrap">
       <!-- 토큰이 만료된 이후의 요청 -->
       <h3>Home</h3>
+
+      <button type="button" class="btn btn-success" onclick="tokenExpiredCheckRequest()">만료된 토큰을 가지고 요청 보내기</button>
   </div>
 </body>
 </html>

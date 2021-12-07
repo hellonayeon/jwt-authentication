@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // view
                 .antMatchers("/", "/signup", "/login").permitAll()
                 // api process
-                .antMatchers("/user/signup", "/user/login").permitAll()
+                .antMatchers("/user/signup", "/user/login", "/user/token").permitAll()
 
                 .anyRequest().authenticated().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

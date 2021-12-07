@@ -1,4 +1,4 @@
-package me.hellonayeon.jwtauthentication.dto;
+package me.hellonayeon.jwtauthentication.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
